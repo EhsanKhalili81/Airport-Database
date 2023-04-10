@@ -1,0 +1,82 @@
+USE [Airport]
+GO
+/****** Object:  Table [dbo].[AirplaneTable]    Script Date: 4/10/2023 12:58:20 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AirplaneTable](
+	[AirplaneCode] [smallint] NOT NULL,
+	[AirplaneName] [nvarchar](50) NOT NULL,
+	[AirplaneCapacity] [smallint] NOT NULL,
+	[AirportCode] [smallint] NOT NULL,
+ CONSTRAINT [PK_AirplaneTable] PRIMARY KEY CLUSTERED 
+(
+	[AirplaneCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AirportTable]    Script Date: 4/10/2023 12:58:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AirportTable](
+	[AirportCode] [smallint] NOT NULL,
+	[AirportName] [nvarchar](50) NOT NULL,
+	[AirportCapacity] [smallint] NOT NULL,
+	[Address] [nvarchar](200) NOT NULL,
+	[Tel] [char](11) NOT NULL,
+ CONSTRAINT [PK_AirportTable] PRIMARY KEY CLUSTERED 
+(
+	[AirportCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CustomerCode]    Script Date: 4/10/2023 12:58:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CustomerCode](
+	[CustomerCode] [smallint] NOT NULL,
+	[CustomerFname] [nvarchar](20) NOT NULL,
+	[CustomerLname] [nvarchar](20) NOT NULL,
+	[NationalCode] [char](10) NOT NULL,
+	[Tel] [char](11) NOT NULL,
+ CONSTRAINT [PK_CustomerCode] PRIMARY KEY CLUSTERED 
+(
+	[CustomerCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ReservationTable]    Script Date: 4/10/2023 12:58:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ReservationTable](
+	[ReservationCode] [smallint] NOT NULL,
+	[CustomerCode] [smallint] NOT NULL,
+	[AirplaneCode] [smallint] NOT NULL,
+ CONSTRAINT [PK_ReservationTable] PRIMARY KEY CLUSTERED 
+(
+	[ReservationCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AirplaneTable]  WITH CHECK ADD  CONSTRAINT [FK_AirplaneTable_AirplaneTable] FOREIGN KEY([AirportCode])
+REFERENCES [dbo].[AirportTable] ([AirportCode])
+GO
+ALTER TABLE [dbo].[AirplaneTable] CHECK CONSTRAINT [FK_AirplaneTable_AirplaneTable]
+GO
+ALTER TABLE [dbo].[ReservationTable]  WITH CHECK ADD  CONSTRAINT [FK_ReservationTable_AirplaneTable] FOREIGN KEY([AirplaneCode])
+REFERENCES [dbo].[AirplaneTable] ([AirplaneCode])
+GO
+ALTER TABLE [dbo].[ReservationTable] CHECK CONSTRAINT [FK_ReservationTable_AirplaneTable]
+GO
+ALTER TABLE [dbo].[ReservationTable]  WITH CHECK ADD  CONSTRAINT [FK_ReservationTable_CustomerCode] FOREIGN KEY([CustomerCode])
+REFERENCES [dbo].[CustomerCode] ([CustomerCode])
+GO
+ALTER TABLE [dbo].[ReservationTable] CHECK CONSTRAINT [FK_ReservationTable_CustomerCode]
+GO
